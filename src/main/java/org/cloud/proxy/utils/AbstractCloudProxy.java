@@ -74,9 +74,9 @@ public abstract class AbstractCloudProxy implements CloudProxy {
 						//eachProxy.getRegistry().getUsedProxies()
 						
 						if(null != null && activeSessions.size() == 0) {
-							getRemoveNodes().add(eachProxy.getId());
+							this.getRemoveNodes().add(eachProxy.getId());
 						} else {
-							getActiveNodes().put(eachProxy.getId(), activeSessions.size());
+							this.getActiveNodes().put(eachProxy.getId(), activeSessions.size());
 						}
 						
 						//eachProxy.getMaxNumberOfConcurrentTestSessions()
