@@ -25,9 +25,6 @@ public class CloudBaseRemoteProxy extends DefaultRemoteProxy {
 	@Override
 	public void beforeRelease(TestSession session) {
 		System.out.println("****************** Delete Session ****************** ");
-		// getTestSlots().get(0).getProxy().getRemoteHost();
-		// getRegistry().getActiveSessions();
-
 		super.beforeRelease(session);
 	}
 
