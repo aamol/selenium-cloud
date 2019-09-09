@@ -1,32 +1,33 @@
 package org.cloud.capability;
 
-import org.cloud.utils.AWSSeleniumUtils;
-import org.cloud.utils.CloudUtils;
-import org.cloud.utils.DefaultSeleniumUtils;
-import org.cloud.utils.GCPSeleniumUtils;
-import org.cloud.utils.KubernetesSeleniumUtils;
+import org.cloud.proxy.utils.AWSProxy;
+import org.cloud.proxy.utils.CloudProxy;
+import org.cloud.proxy.utils.DefaultProxy;
+import org.cloud.proxy.utils.GCPProxy;
+import org.cloud.proxy.utils.KubernetesProxy;
 
 public enum CloudType {
 
 	KUBERNETES, GCP, AWS;
 
-	public CloudUtils getUtil() {
-		CloudUtils cloudUtils ;
+	public CloudProxy getProxy() {
+		CloudProxy cloudProxy;
+
 		switch (this) {
 		case KUBERNETES:
-			cloudUtils = new KubernetesSeleniumUtils();
+			cloudProxy = new KubernetesProxy();
 			break;
 		case AWS:
-			cloudUtils = new AWSSeleniumUtils();
+			cloudProxy = new AWSProxy();
 			break;
 		case GCP:
-			cloudUtils = new GCPSeleniumUtils();
+			cloudProxy = new GCPProxy();
 			break;
 		default:
-			cloudUtils = new DefaultSeleniumUtils();
+			cloudProxy = new DefaultProxy();
 		}
 
-		return cloudUtils;
+		return cloudProxy;
 	}
 
 }

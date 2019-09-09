@@ -6,7 +6,6 @@ package org.cloud.proxy;
 import java.util.Map;
 
 import org.cloud.capability.CloudType;
-import org.cloud.utils.CloudUtils;
 import org.openqa.grid.common.RegistrationRequest;
 import org.openqa.grid.internal.GridRegistry;
 import org.openqa.grid.internal.TestSession;
@@ -25,24 +24,28 @@ public class CloudBaseRemoteProxy extends DefaultRemoteProxy {
 
 	@Override
 	public void beforeRelease(TestSession session) {
-		// TODO Auto-generated method stub
+		System.out.println("****************** Delete Session ****************** ");
+		// getTestSlots().get(0).getProxy().getRemoteHost();
+		// getRegistry().getActiveSessions();
+
 		super.beforeRelease(session);
 	}
 
 	@Override
 	public void beforeSession(TestSession session) {
-		// TODO Auto-generated method stub
+		System.out.println("****************** Create Session ******************");
 		super.beforeSession(session);
-		Map capabilities = session.getRequestedCapabilities();
-		CloudType cloudType = CloudType.valueOf((String) capabilities.get("CloudType"));
-		CloudUtils cloudUtil = cloudType.getUtil();
-		if(null!=cloudType) {
-			cloudUtil.checkandCreateIfNewInstanceToBeCreated(this);
 
+		Map<String, Object> capabilities = session.getRequestedCapabilities();
+
+		if (null != capabilities && capabilities.size() > 0 && null != capabilities.get("CloudType")) {
+			CloudType cloudType = CloudType.valueOf((String) capabilities.get("CloudType"));
+			System.out.println("****************** CloudType : " + cloudType + " ******************");
+
+			if (null != cloudType && null != cloudType.getProxy()) {
+				System.out.println("****************** Cloud Proxy : " + cloudType.getProxy() + " ******************");
+				cloudType.getProxy().updateProxyNodes(this);
+			}
 		}
-		
 	}
-	
-	
-
 }
