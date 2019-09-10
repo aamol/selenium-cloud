@@ -10,10 +10,8 @@ public interface CloudProxy {
 
 	public boolean requireToRemoveANode(CloudBaseRemoteProxy pCloudBaseRemoteProxy);
 
-	public void addANode();
+	public void checkIfNodeToBeAdded(CloudBaseRemoteProxy pCloudBaseRemoteProxy);
 
-	public void removeANode();
-
-	public void updateProxyNodes(CloudBaseRemoteProxy pCloudBaseRemoteProxy);
+	public void checkIfNodeToBeRemoved(CloudBaseRemoteProxy pCloudBaseRemoteProxy);
 
 }
