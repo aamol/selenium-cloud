@@ -11,8 +11,8 @@ public enum CloudType {
 	KUBERNETES, GCP, AWS;
 
 	public CloudProxy getProxy() {
-		CloudProxy cloudProxy;
-
+		CloudProxy cloudProxy ;
+		
 		switch (this) {
 		case KUBERNETES:
 			cloudProxy = new KubernetesProxy();

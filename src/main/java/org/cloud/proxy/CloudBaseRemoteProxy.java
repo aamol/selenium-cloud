@@ -6,6 +6,7 @@ package org.cloud.proxy;
 import java.util.Map;
 
 import org.cloud.capability.CloudType;
+import org.cloud.proxy.utils.CloudProxy;
 import org.openqa.grid.common.RegistrationRequest;
 import org.openqa.grid.internal.GridRegistry;
 import org.openqa.grid.internal.TestSession;
@@ -24,25 +25,45 @@ public class CloudBaseRemoteProxy extends DefaultRemoteProxy {
 
 	@Override
 	public void beforeRelease(TestSession session) {
-		System.out.println("****************** Delete Session ****************** ");
 		super.beforeRelease(session);
+		
+		CloudProxy cloudProxy = getProxy(session);
+		
+		if(null != cloudProxy) {
+			cloudProxy.checkIfNodeToBeRemoved(this);
+		}
 	}
 
 	@Override
 	public void beforeSession(TestSession session) {
-		System.out.println("****************** Create Session ******************");
 		super.beforeSession(session);
 
-		Map<String, Object> capabilities = session.getRequestedCapabilities();
-
-		if (null != capabilities && capabilities.size() > 0 && null != capabilities.get("CloudType")) {
-			CloudType cloudType = CloudType.valueOf((String) capabilities.get("CloudType"));
-			System.out.println("****************** CloudType : " + cloudType + " ******************");
-
-			if (null != cloudType && null != cloudType.getProxy()) {
-				System.out.println("****************** Cloud Proxy : " + cloudType.getProxy() + " ******************");
-				cloudType.getProxy().updateProxyNodes(this);
-			}
+		CloudProxy cloudProxy = getProxy(session);
+		
+		if(null != cloudProxy) {
+			cloudProxy.checkIfNodeToBeAdded(this);
 		}
 	}
+
+	/**
+	 * get the object of Cloud proxy class
+	 * @param session
+	 * @return
+	 */
+	private CloudProxy getProxy(TestSession session) {
+		if(null != session) {
+			
+			Map<String, Object> capabilities = session.getRequestedCapabilities();
+
+			if (null != capabilities && capabilities.size() > 0 && null != capabilities.get("CloudType")) {
+				CloudType cloudType = CloudType.valueOf((String) capabilities.get("CloudType"));
+
+				if (null != cloudType && null != cloudType.getProxy()) {
+					return cloudType.getProxy();
+				}
+			}
+		}// end of if
+		
+		return null;
+	}//end of getProxy
 }
