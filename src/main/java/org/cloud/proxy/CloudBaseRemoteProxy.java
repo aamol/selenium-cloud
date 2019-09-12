@@ -25,24 +25,24 @@ public class CloudBaseRemoteProxy extends DefaultRemoteProxy {
 
 	@Override
 	public void beforeRelease(TestSession session) {
-		super.beforeRelease(session);
-		
 		CloudProxy cloudProxy = getProxy(session);
 		
 		if(null != cloudProxy) {
 			cloudProxy.checkIfNodeToBeRemoved(this);
 		}
+		
+		super.beforeRelease(session);
 	}
 
 	@Override
 	public void beforeSession(TestSession session) {
-		super.beforeSession(session);
-
 		CloudProxy cloudProxy = getProxy(session);
 		
 		if(null != cloudProxy) {
 			cloudProxy.checkIfNodeToBeAdded(this);
 		}
+		
+		super.beforeSession(session);
 	}
 
 	/**
